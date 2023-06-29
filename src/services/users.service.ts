@@ -188,7 +188,7 @@ export const BlockUserService = async (user: any) => {
 };
 
 export const updateUserService = async (payload: any, id:number) => {
-  const loadingToast = toast.loading("bloqueando usuário", {
+  const loadingToast = toast.loading("atualizando usuário", {
     toastId: "loading3",
     closeOnClick:true,
     autoClose: 2500,
@@ -200,7 +200,8 @@ export const updateUserService = async (payload: any, id:number) => {
     cpf: payload.cpf,
     role: stringToRole(payload.role),
     username: payload.username,
-    email: payload.username,
+    email: payload.email,
+    fullName:payload.fullName
   };
 
   try {
@@ -228,19 +229,7 @@ export const updateUserService = async (payload: any, id:number) => {
 
 };
 
-const roleToString = (role: number) => {
-  if (role === 1) return "Admin";
-  if (role === 2) return "Public";
-  if (role === 3) return "Employer";
-  if (role === 4) return "Manager";
-};
 
-const stringToRole = (role: string) => {
-  if (role === "Admin") return 1;
-  if (role === "Public") return 2;
-  if (role === "Employer") return 3;
-  if (role === "Manager") return 4;
-};
 
 export const validateTokenService = async () => {
   try {
@@ -259,3 +248,17 @@ export const validateTokenService = async () => {
 export const logout = () => {
   Cookies.remove('token')
 }
+
+const roleToString = (role: number) => {
+  if (role === 1) return "Admin";
+  if (role === 2) return "Public";
+  if (role === 3) return "Employer";
+  if (role === 4) return "Manager";
+};
+
+const stringToRole = (role: string) => {
+  if (role === "Admin") return 1;
+  if (role === "Public") return 2;
+  if (role === "Employer") return 3;
+  if (role === "Manager") return 4;
+};

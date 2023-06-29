@@ -131,7 +131,7 @@ export default function User() {
                     >
                       <Avatar src={avatar} />
                       <div>
-                        <Typography variant="h6">{user.username}</Typography>
+                        <Typography variant="h6">{user.username} - {user.fullName}</Typography>
                         <Typography variant="body2">{user.email}</Typography>
                       </div>
                     </TableCell>

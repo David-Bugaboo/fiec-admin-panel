@@ -28,14 +28,25 @@ const UpdateModal = ({ open, onClose, user }: iModal) => {
     cpf: Yup.string()
       .required("cpf é obrigatório")
       .matches(/^\d{11}$/, "CPF inválido"),
+    fullName: Yup.string().required("Nome completo é obrigatório")
   });
 
   const {populateUsers} = useContext(userContext)
+  
+  function shaveCpfString(cpf:string) {
+    // Remove periods and hyphens from the CPF string
+    if(cpf)
+    return cpf.replace(/[.-]/g, '');
+    
+    return ""
+  }
+
 
   useEffect(() => {
     setValue("username", user.username);
     setValue("email", user.email);
-    setValue("cpf", user.cpf);
+    setValue("cpf", shaveCpfString(user.cpf));
+    setValue("fullName", user.fullName)
     console.log(user)
   }, [user]);
 
@@ -89,9 +100,11 @@ const UpdateModal = ({ open, onClose, user }: iModal) => {
             </IconButton>
           </div>
           <form
-            onSubmit={handleSubmit(async (data) => {/*await updateUserService({...data, role:user.role},user.id)
-            populateUsers()*/
-            console.log({...data,role:user.role})
+            onSubmit={handleSubmit(async (data) => {await updateUserService({...data, role:user.role},user.id)
+            console.log(data)
+            onClose()  
+            populateUsers()
+            
           })}
             style={{ marginBottom: "16px" }}
           >
@@ -178,6 +191,33 @@ const UpdateModal = ({ open, onClose, user }: iModal) => {
                 sx={{ color: "red" }}
               >
                 {errors.cpf?.message}
+              </Typography>
+            </div>
+            <div>
+              <Controller
+                control={control}
+                name="fullName"
+                render={({
+                  field: { onChange, onBlur, value, name, ref },
+                  fieldState: { isTouched, isDirty, error },
+                  formState,
+                }) => (
+                  <TextField
+                    onChange={onChange}
+                    error={!!errors.cpf}
+                    value={value}
+                    label="nome completo"
+                    style={{ marginBottom: "16px" }}
+                    fullWidth
+                  />
+                )}
+              />
+              <Typography
+                variant="subtitle1"
+                align="center"
+                sx={{ color: "red" }}
+              >
+                {errors.fullName?.message}
               </Typography>
             </div>
 
